@@ -24,8 +24,8 @@ namespace PageRedirect.Aspx
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-            loginName = Request.LogonUserIdentity.Name.Contains("\\") ?
-                Request.LogonUserIdentity.Name.Split('\\').Last() : Request.LogonUserIdentity.Name;
+            loginName = System.Web.HttpContext.Current.User.Identity.Name.Contains("\\") ?
+                System.Web.HttpContext.Current.User.Identity.Name.Split('\\').Last() : System.Web.HttpContext.Current.User.Identity.Name;
 
             Username.InnerText = loginName;
             if (showButtons)
@@ -38,7 +38,7 @@ namespace PageRedirect.Aspx
             else
             {
                 ShowRedirectButtons.InnerText = "NOT Showing Buttons";
-                Response.Redirect($"{redirectSites[0]}?{parameterForUsername}={loginName}");
+                Response.Redirect($"{redirectSites[0]}{parameterForUsername}={loginName}");
             }
         }
         private Dictionary<string, string> BindKeysAndValues(string [] keys, string [] values)
